@@ -15,10 +15,8 @@ require (
 	github.com/gofiber/fiber/v2 v2.27.0
 	github.com/gofiber/jwt/v2 v2.2.7
 	github.com/google/uuid v1.1.2
-	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.4.0
 	github.com/spf13/cast v1.4.1
-	github.com/swaggo/http-swagger v1.2.5
 	github.com/swaggo/swag v1.7.9
 )
 
