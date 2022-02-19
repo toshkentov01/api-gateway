@@ -1,0 +1,355 @@
+basePath: /api
+definitions:
+  models.CheckUserAccountResponseModel:
+    properties:
+      exists:
+        type: boolean
+    type: object
+  models.ExpenseModel:
+    properties:
+      expense_amount:
+        type: integer
+    type: object
+  models.GetBalanceResponseModel:
+    properties:
+      balance:
+        type: integer
+    type: object
+  models.IncomeModel:
+    properties:
+      income_amount:
+        type: integer
+    type: object
+  models.ListOperationsByTypeResponseModel:
+    properties:
+      count:
+        type: integer
+      results:
+        items:
+          $ref: '#/definitions/models.Operation'
+        type: array
+    type: object
+  models.Operation:
+    properties:
+      action:
+        type: string
+      date:
+        type: string
+    type: object
+  models.SignUpModel:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - full_name
+    - password
+    - username
+    type: object
+  models.SignUpModelForUnidentifiedUser:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.SignUpResponseModel:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.SignUpResponseModelForUnidentifiedUser:
+    properties:
+      access_token:
+        type: string
+      id:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+  models.StandardErrorModel:
+    properties:
+      error_message:
+        type: string
+    type: object
+  models.Success:
+    properties:
+      success:
+        type: boolean
+    type: object
+info:
+  contact: {}
+  description: This is an auto-generated API Docs for Alif Tech's Task.
+  termsOfService: http://swagger.io/terms/
+  title: Alif Tech Task's API
+paths:
+  /:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of server.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show the status of server.
+      tags:
+      - root
+  /check-user-account/:
+    get:
+      consumes:
+      - application/json
+      description: CheckUserAccount API checks whether user has an account or not.
+      parameters:
+      - description: Username
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CheckUserAccountResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      tags:
+      - user
+  /create-identified-user/:
+    post:
+      consumes:
+      - application/json
+      description: Creates an identified user.
+      parameters:
+      - description: Sign Up
+        in: body
+        name: signup
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignUpModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SignUpResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: creates an identified user
+      tags:
+      - register
+  /create-unidentified-user/:
+    post:
+      consumes:
+      - application/json
+      description: Creates an unidentified user.
+      parameters:
+      - description: Sign Up
+        in: body
+        name: signup
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignUpModelForUnidentifiedUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SignUpResponseModelForUnidentifiedUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: creates an unidentified user
+      tags:
+      - register
+  /user/balance/:
+    get:
+      consumes:
+      - application/json
+      description: GetBalance API used for getting a user balance.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetBalanceResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - user
+  /user/expense/:
+    post:
+      consumes:
+      - application/json
+      description: Expense API used for reducing a balance.
+      parameters:
+      - description: Income
+        in: body
+        name: income
+        required: true
+        schema:
+          $ref: '#/definitions/models.ExpenseModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - user
+  /user/income/:
+    post:
+      consumes:
+      - application/json
+      description: Income API used for topping up a balance.
+      parameters:
+      - description: Income
+        in: body
+        name: income
+        required: true
+        schema:
+          $ref: '#/definitions/models.IncomeModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - user
+  /user/operations/:
+    get:
+      consumes:
+      - application/json
+      description: GetBalance API used for getting a user balance.
+      parameters:
+      - description: OperationType
+        enum:
+        - income_operations
+        - expense_operations
+        in: header
+        name: OperationType
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListOperationsByTypeResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - user
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

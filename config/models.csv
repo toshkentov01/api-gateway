@@ -1,0 +1,10 @@
+p, any, /swagger/*, GET
+p, unauthorized, /api/create-identified-user/, POST
+p, unauthorized, /api/create-unidentified-user/, POST
+p, unauthorized, /api/check-user-account/, GET
+p, user, /api/user/income/, POST
+p, user, /api/user/expense/, POST
+p, user, /api/user/balance/, GET
+p, user, /api/user/operations/, GET
+g, authorized, any
+g, unauthorized, any
